@@ -16,6 +16,7 @@ const val BASEURL = "192.168.35.150"
 
 @Module
 class AppModule {
+
     @Singleton
     @Provides
     fun providerOkhttpClient() =
@@ -40,12 +41,11 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun providerRetrofit(okHttpClient: OkHttpClient): Retrofit{
-        return Retrofit.Builder()
+    fun providerRetrofit(okHttpClient: OkHttpClient): Retrofit =
+         Retrofit.Builder()
             .baseUrl(BASEURL)
             .client(okHttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    }
 }
