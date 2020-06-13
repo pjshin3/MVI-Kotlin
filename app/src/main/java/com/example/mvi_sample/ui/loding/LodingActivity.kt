@@ -15,7 +15,7 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
     override val layoutId = R.layout.activity_loding
 
     private val startClickIntentPublisher =
-        PublishSubject.create<LodingIntent.LodingClicksIntent>()
+        PublishSubject.create<LodingIntent.Start>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,12 +24,7 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
     }
     private fun bind(){
         bt.clicks()
-            .map {
-                LodingIntent.LodingClicksIntent(
-                    "hello",
-                    "world"
-                )
-            }
+            .map { LodingIntent.Start }
             .autoDisposable(scopeProvider)
             .subscribe(startClickIntentPublisher)
     }
