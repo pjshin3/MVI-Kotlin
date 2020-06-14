@@ -1,12 +1,12 @@
 package com.example.mvi_sample.ui.loding
 
-import com.example.mvi_sample.base.IViewState
+import com.example.mvi_sample.base.Interface.IViewState
 
 data class LodingViewState(
     val isLoading: Boolean,
     val errors: Throwable?,
     val uiEvents: LodingUiEvents?
-): IViewState{
+): IViewState {
 
     sealed class LodingUiEvents {
 
