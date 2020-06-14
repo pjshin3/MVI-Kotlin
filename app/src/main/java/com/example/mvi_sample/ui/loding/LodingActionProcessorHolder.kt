@@ -1,25 +1,48 @@
 package com.example.mvi_sample.ui.loding
 
+import com.example.mvi_sample.base.SchedulerProvider
+import com.example.mvi_sample.ex.flatMapErrorActionObservable
+import com.example.mvi_sample.ui.loding.state.LodingAction
+import com.example.mvi_sample.ui.loding.state.LodingResult
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 
 class LodingActionProcessorHolder (
-    private val repository : LodingDataSourceRepository
+    private val repository : LodingDataSourceRepository,
+    private val scheduler: SchedulerProvider
 ) {
 
-//    private val initialUiActionTransformer =
-//        ObservableTransformer<LodingAction.InitialUiAction, LodingResult> {action ->
-//            action.flatMap {
-//
-//            }
-//        }
-//
-//    internal val actionProcessor =
-//        ObservableTransformer<LodingAction,LodingResult> {action ->
-//            action.publish { shared ->
-//                Observable.merge{
-//                    shared.ofType(LodingAction.InitialUiAction::class.java).compose()
-//                }
-//            }
-//        }
+    private val lodingTransfomar =
+        ObservableTransformer<LodingAction.ServerVersion, LodingResult> {action ->
+            action.flatMap {
+                repository
+                    .chack()
+                    .toObservable()
+                    .flatMap {onLodingResultSuccess(it)}
+                    .subscribeOn(scheduler.io())
+                    .observeOn(scheduler.ui())
+                    .startWith{LodingResult.InFlight}
+            }
+        }
+
+    private fun onLodingResultSuccess(result: ServerVersionInfoModel) : Observable<LodingResult.Success> =
+        Observable.just(LodingResult.Success(result.version))
+
+    private fun onLodingREsultError(error: Throwable) : Observable<LodingResult.Failure> =
+        Observable.just(LodingResult.Failure(error))
+
+    internal val actionProcessor =
+        ObservableTransformer<LodingAction,LodingResult> {action ->
+            action.publish {shard ->
+                shard.flatMap {
+                    Observable.merge(
+                        shard.ofType(LodingAction.ServerVersion::class.java).compose(lodingTransfomar),
+                        shard.filter {all ->
+                            all !is LodingAction.InitialUiAction &&
+                                    all !is LodingAction.ServerVersion
+                        }.flatMapErrorActionObservable()
+                    )
+                }
+            }
+        }
 }

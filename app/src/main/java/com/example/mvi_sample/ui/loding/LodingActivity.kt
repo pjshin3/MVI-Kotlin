@@ -4,11 +4,13 @@ import android.os.Bundle
 import com.example.mvi_sample.MainActivity
 import com.example.mvi_sample.R
 import com.example.mvi_sample.base.BaseActivity
+import com.example.mvi_sample.ui.loding.state.LodingIntent
 import com.jakewharton.rxbinding3.view.clicks
 import com.uber.autodispose.autoDisposable
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_loding.*
+import javax.inject.Inject
 
 class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
 
@@ -16,6 +18,10 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
 
     private val startClickIntentPublisher =
         PublishSubject.create<LodingIntent.Start>()
+
+    @Inject
+    lateinit var mViewModel: LodingViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +33,12 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
             .map { LodingIntent.Start }
             .autoDisposable(scopeProvider)
             .subscribe(startClickIntentPublisher)
+
+        mViewModel.states()
+            .autoDisposable(scopeProvider)
+            .subscribe(this::render)
+
+        mViewModel.processIntents(intents())
     }
 
 

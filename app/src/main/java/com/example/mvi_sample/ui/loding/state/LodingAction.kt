@@ -1,4 +1,4 @@
-package com.example.mvi_sample.ui.loding
+package com.example.mvi_sample.ui.loding.state
 
 import com.example.mvi_sample.base.IAction
 
