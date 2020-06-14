@@ -1,6 +1,7 @@
 package com.example.mvi_sample
 
 import android.app.Application
+import com.example.mvi_sample.di.DaggerAppComponnet
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -18,6 +19,10 @@ class MainApplication : Application(),HasAndroidInjector{
         super.onCreate()
         INSTANCE = this
 
+        DaggerAppComponnet.builder()
+            .aplication(this)
+            .build()
+            .inject(this)
 
     }
 

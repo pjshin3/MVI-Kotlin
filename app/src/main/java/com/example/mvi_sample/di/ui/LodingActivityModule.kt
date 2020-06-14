@@ -18,7 +18,7 @@ class LodingActivityModule {
         activity: LodingActivity,
         processorHolder: LodingActionProcessorHolder
     ): LodingViewModel{
-        return ViewModelProvider(activity,LodingViewModel.LodingViewModelFactory(processorHolder))[LodingViewModel::class.java]
+        return ViewModelProvider(activity,LodingViewModel.LodingViewModelFactory(processorHolder)).get(LodingViewModel::class.java)
     }
 
     @ActivityScope

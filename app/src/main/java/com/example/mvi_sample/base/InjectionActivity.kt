@@ -15,5 +15,7 @@ abstract class InjectionActivity : AutoDisposeActivity(), HasAndroidInjector{
         super.onCreate(savedInstanceState)
     }
 
-    override fun androidInjector(): AndroidInjector<Any> = androidInjector
+    override fun androidInjector(): AndroidInjector<Any> {
+        return androidInjector
+    }
 }

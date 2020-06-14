@@ -2,7 +2,6 @@ package com.example.mvi_sample.di
 
 import android.app.Application
 import com.example.mvi_sample.MainApplication
-import com.example.mvi_sample.di.ui.LodingActivityModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule

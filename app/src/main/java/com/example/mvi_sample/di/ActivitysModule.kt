@@ -7,7 +7,6 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivitiesModule {
-
     @ActivityScope
     @ContributesAndroidInjector(modules = [LodingActivityModule::class])
     abstract fun contributesLodingActivity(): LodingActivity

@@ -1,6 +1,10 @@
 package com.example.mvi_sample.di
 
 import com.example.mvi_sample.BuildConfig
+import com.example.mvi_sample.base.SchedulerProvider
+import com.example.mvi_sample.base.SchedulerProviderProxy
+import com.example.mvi_sample.remote.RemoteManager
+import com.example.mvi_sample.remote.RetrofitService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -12,7 +16,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 const val TIME_OUT_SECONDS = 10
-const val BASEURL = "192.168.35.150"
+const val BASEURL = "http://192.168.35.150"
 
 @Module
 class AppModule {
@@ -48,4 +52,22 @@ class AppModule {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
+    @Singleton
+    @Provides
+    fun providesSchedulerProvider(): SchedulerProvider{
+        return SchedulerProviderProxy()
+    }
+
+    @Singleton
+    @Provides
+    fun providesRemoteService(retrofit: Retrofit) : RetrofitService{
+        return retrofit.create(RetrofitService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesRemoteManager(retrofitService: RetrofitService): RemoteManager{
+        return RemoteManager(retrofitService = retrofitService)
+    }
 }
