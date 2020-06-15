@@ -18,7 +18,7 @@ class LodingActionProcessorHolder (
                 repository
                     .chack()
                     .toObservable()
-                    .flatMap {onLodingResultSuccess(it)}
+                    .flatMap (this::onLodingResultSuccess)
                     .subscribeOn(scheduler.io())
                     .observeOn(scheduler.ui())
                     .startWith{LodingResult.InFlight}
@@ -34,15 +34,12 @@ class LodingActionProcessorHolder (
     internal val actionProcessor =
         ObservableTransformer<LodingAction,LodingResult> {action ->
             action.publish {shard ->
-                shard.flatMap {
-                    Observable.merge(
-                        shard.ofType(LodingAction.ServerVersion::class.java).compose(lodingTransfomar),
-                        shard.filter {all ->
-                            all !is LodingAction.InitialUiAction &&
-                                    all !is LodingAction.ServerVersion
-                        }.flatMapErrorActionObservable()
-                    )
-                }
-            }
+                Observable.merge(
+                    shard.ofType(LodingAction.ServerVersion::class.java).compose(lodingTransfomar),
+                    shard.filter{
+                        it !is LodingAction.ServerVersion
+                    }.flatMapErrorActionObservable()
+                )
+            }.retry()
         }
 }

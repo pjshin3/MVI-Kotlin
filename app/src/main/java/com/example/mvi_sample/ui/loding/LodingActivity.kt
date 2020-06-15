@@ -1,6 +1,7 @@
 package com.example.mvi_sample.ui.loding
 
 import android.os.Bundle
+import android.util.Log
 import com.example.mvi_sample.MainActivity
 import com.example.mvi_sample.R
 import com.example.mvi_sample.base.BaseActivity
@@ -36,7 +37,12 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
 
         mViewModel.states()
             .autoDisposable(scopeProvider)
-            .subscribe(this::render)
+            .subscribe({
+                Log.e("philip","성공 $")
+                render(it)
+            },{
+                Log.e("philip","$it")
+            })
 
         mViewModel.processIntents(intents())
     }

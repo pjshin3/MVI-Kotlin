@@ -6,7 +6,7 @@ let users= [
     name: 'philip'
   }
 ]
-let servserinfo= [
+let serverinfo= [
   {
     version: 1.0
   }
