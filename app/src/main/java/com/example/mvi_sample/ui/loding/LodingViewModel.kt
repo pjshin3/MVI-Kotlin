@@ -43,7 +43,7 @@ class LodingViewModel (
     private fun compose(): Observable<LodingViewState>{
         return intentsSubject
             .compose(intentFilter)
-            .map(this::actionFromIntent)
+            .map{actionFromIntent(it)}
             .compose(proecessorHolder.actionProcessor)
             .scan(LodingViewState.idle(), reducer)
             .switchMap(specialEventProcessor)

@@ -6,20 +6,20 @@ let users= [
     name: 'philip'
   }
 ]
-let serverinfo= [
+let myAppServerChack = 
   {
     version: 1.0
   }
-]
+
 
 app.get('/users',(req,res)=>{
   console.log('who get in here post/users');
   res.json(users)
 });
 
-app.get('/servserinfo',(req,res)=>{
+app.get('/myAppServerChack',(req,res)=>{
   console.log('servserinfo sand');
-  res.json(servserinfo)
+  res.json(myAppServerChack)
 });
 
 app.listen(3000, () =>{

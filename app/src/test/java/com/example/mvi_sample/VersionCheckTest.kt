@@ -1,30 +1,38 @@
-package com.example.mvi_sample.di
+package com.example.mvi_sample
 
-import com.example.mvi_sample.BuildConfig
-import com.example.mvi_sample.base.SchedulerProvider
-import com.example.mvi_sample.base.SchedulerProviderProxy
+import android.app.Application
+import com.example.mvi_sample.di.BASEURL
+import com.example.mvi_sample.di.DaggerAppComponnet
+import com.example.mvi_sample.di.TIME_OUT_SECONDS
 import com.example.mvi_sample.remote.RemoteManager
 import com.example.mvi_sample.remote.RetrofitService
-import dagger.Module
-import dagger.Provides
+import io.reactivex.Flowable
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.junit.Before
+import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
+import javax.inject.Inject
 
-const val TIME_OUT_SECONDS = 10
-const val BASEURL = "http://192.168.35.150:3000"
+class VersionCheckTest {
 
-@Module
-class AppModule {
+    @Inject
+    lateinit var retrofitService : RetrofitService
 
-    @Singleton
-    @Provides
-    fun providerOkhttpClient() =
-        OkHttpClient.Builder()
+    lateinit var retrofit : Retrofit
+
+    @Before
+    fun setUp(){
+        DaggerAppComponnet.builder()
+            .aplication(Application())
+            .build()
+            .inject(MainApplication())
+
+       val okHttpClient =  OkHttpClient.Builder()
             .connectTimeout(
                 TIME_OUT_SECONDS.toLong(),
                 TimeUnit.SECONDS
@@ -43,31 +51,21 @@ class AppModule {
             )
             .build()
 
-    @Singleton
-    @Provides
-    fun providerRetrofit(okHttpClient: OkHttpClient): Retrofit =
-         Retrofit.Builder()
+
+       retrofit =  Retrofit.Builder()
             .baseUrl(BASEURL)
             .client(okHttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
-    @Singleton
-    @Provides
-    fun providesSchedulerProvider(): SchedulerProvider{
-        return SchedulerProviderProxy()
     }
 
-    @Singleton
-    @Provides
-    fun providesRemoteService(retrofit: Retrofit) : RetrofitService{
-        return retrofit.create(RetrofitService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun providesRemoteManager(retrofitService: RetrofitService): RemoteManager{
-        return RemoteManager(retrofitService = retrofitService)
+    @Test
+    fun `TEST VERSION CHECK`(){
+        retrofit.create(RetrofitService::class.java).getSerVerinfo().subscribe({
+            println("성공")
+        },{
+            println("실패 $it")
+        })
     }
 }
