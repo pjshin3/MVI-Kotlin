@@ -33,7 +33,11 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
         bt.clicks()
             .map { LodingIntent.Start }
             .autoDisposable(scopeProvider)
-            .subscribe(startClickIntentPublisher)
+            .subscribe({
+                startClickIntentPublisher.onNext(it)
+            },{
+
+            })
 
         mViewModel.states()
             .autoDisposable(scopeProvider)
@@ -59,6 +63,7 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
 
                 return
             }
+
         }
     }
 }

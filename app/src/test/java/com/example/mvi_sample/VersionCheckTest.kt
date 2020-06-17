@@ -10,6 +10,7 @@ import io.reactivex.Flowable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
@@ -63,7 +64,8 @@ class VersionCheckTest {
     @Test
     fun `TEST VERSION CHECK`(){
         retrofit.create(RetrofitService::class.java).getSerVerinfo().subscribe({
-            println("성공")
+            println("성공 ${it.version}")
+            Assert.assertEquals("1",it.version)
         },{
             println("실패 $it")
         })

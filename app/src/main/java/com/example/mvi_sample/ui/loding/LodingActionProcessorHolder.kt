@@ -1,5 +1,6 @@
 package com.example.mvi_sample.ui.loding
 
+import android.util.Log
 import com.example.mvi_sample.base.SchedulerProvider
 import com.example.mvi_sample.ex.flatMapErrorActionObservable
 import com.example.mvi_sample.ui.loding.state.LodingAction
@@ -18,7 +19,10 @@ class LodingActionProcessorHolder (
                 repository
                     .chack()
                     .toObservable()
-                    .flatMap (this::onLodingResultSuccess)
+                    .flatMap {
+                        Log.e("philip","테스트 $it")
+                        onLodingResultSuccess(it)
+                    }
                     .subscribeOn(scheduler.io())
                     .observeOn(scheduler.ui())
                     .startWith{LodingResult.InFlight}

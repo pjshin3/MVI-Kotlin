@@ -13,7 +13,6 @@ import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.ObservableTransformer
 import io.reactivex.subjects.PublishSubject
-import java.util.function.BiFunction
 
 class LodingViewModel (
     private val proecessorHolder : LodingActionProcessorHolder
@@ -40,17 +39,19 @@ class LodingViewModel (
     override fun states(): Observable<LodingViewState> = statesObservable
 
 
-    private fun compose(): Observable<LodingViewState>{
-        return intentsSubject
-            .compose(intentFilter)
-            .map{actionFromIntent(it)}
+    private fun compose()=
+        intentsSubject
+//            .compose(intentFilter)
+            .map { actionFromIntent(it) }
             .compose(proecessorHolder.actionProcessor)
             .scan(LodingViewState.idle(), reducer)
-            .switchMap(specialEventProcessor)
-            .distinctUntilChanged()
-            .replay(1)
-            .autoConnect(0)
-    }
+//            .compose(proecessorHolder.actionProcessor)
+//            .scan(LodingViewState.idle(), reducer)
+//            .switchMap(specialEventProcessor)
+//            .distinctUntilChanged()
+//            .replay(1)
+//            .autoConnect(0)
+
 
     private fun actionFromIntent(intent: LodingIntent): LodingAction {
         return when(intent){
@@ -58,6 +59,13 @@ class LodingViewModel (
             is LodingIntent.Start -> LodingAction.ServerVersion
         }
     }
+    private fun actionTestCode(lodingAction: LodingAction): LodingViewState{
+        return when(lodingAction){
+            is LodingAction.ServerVersion -> LodingViewState.idle()
+            is LodingAction.InitialUiAction -> LodingViewState.idle()
+        }
+    }
+
     private val specialEventProcessor : io.reactivex.functions.Function<LodingViewState, ObservableSource<LodingViewState>>
         get() = io.reactivex.functions.Function { state ->
             when(state.uiEvents != null || state.errors != null){
