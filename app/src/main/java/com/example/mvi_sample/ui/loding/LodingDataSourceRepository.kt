@@ -13,6 +13,7 @@ class LodingDataSourceRepository (
 
     fun chack() : Flowable<ServerVersionInfoModel> {
         return remoteDataSource.chack()
+            .doOnNext { it }
     }
 
 }

@@ -19,13 +19,7 @@ class LodingActionProcessorHolder (
                 repository
                     .chack()
                     .toObservable()
-                    .flatMap {
-                        Log.e("philip","테스트 $it")
-                        onLodingResultSuccess(it)
-                    }
-                    .subscribeOn(scheduler.io())
-                    .observeOn(scheduler.ui())
-                    .startWith{LodingResult.InFlight}
+                    .flatMap { onLodingResultSuccess(it) }
             }
         }
 
