@@ -6,9 +6,9 @@ let users= [
     name: 'philip'
   }
 ]
-let myAppServerChack = 
+let myAppServerChack =
   {
-    version: 1.0
+    version: 2.0
   }
 
 

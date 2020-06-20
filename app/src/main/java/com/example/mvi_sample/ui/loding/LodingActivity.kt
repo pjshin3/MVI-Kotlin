@@ -42,10 +42,8 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
         mViewModel.states()
             .autoDisposable(scopeProvider)
             .subscribe({
-                Log.e("philip","성공 $")
                 render(it)
             },{
-                Log.e("philip","$it")
             })
 
         mViewModel.processIntents(intents())
@@ -60,7 +58,7 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
         when(states.uiEvents){
             is LodingViewState.LodingUiEvents.JumpMain -> {
                 MainActivity.launch(this)
-
+                finish()
                 return
             }
 
