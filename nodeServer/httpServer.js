@@ -30,6 +30,10 @@ app.get('/myAppServerChack',(req,res)=>{
   console.log('servserinfo sand');
   res.json(myAppServerChack)
 });
+app.get('/data',(req,res)=>{
+  console.log('data sand');
+  res.json(data)
+});
 
 app.listen(3000, () =>{
   console.log('Example app listening on post 3000!');

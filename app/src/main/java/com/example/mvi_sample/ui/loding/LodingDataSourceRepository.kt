@@ -11,7 +11,8 @@ class LodingDataSourceRepository (
 ): BaseRepositoryRemote<LodingRemoteDataSource>(remoteDataSource){
 
     fun getChack() : Flowable<ServerVersionInfoModel> {
-        return remoteDataSource.getChack()
+        return remoteDataSource
+            .getChack()
             .doOnNext { it }
     }
     fun getData() : Flowable<ServerDataModel> =

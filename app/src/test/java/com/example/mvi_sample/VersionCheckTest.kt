@@ -70,4 +70,16 @@ class VersionCheckTest {
             println("실패 $it")
         })
     }
+
+    @Test
+    fun `TEST GET DATA`(){
+        retrofit
+            .create(RetrofitService::class.java)
+            .getData()
+            .subscribe({
+                println(it.wife)
+                Assert.assertEquals("hong", it.wife)
+                },{
+            })
+    }
 }

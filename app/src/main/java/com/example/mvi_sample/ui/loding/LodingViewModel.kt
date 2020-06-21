@@ -1,6 +1,5 @@
 package com.example.mvi_sample.ui.loding
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.mvi_sample.base.BaseViewModel
@@ -41,10 +40,14 @@ class LodingViewModel (
 
     private fun compose()=
         intentsSubject
-//            .compose(intentFilter)
+            .compose(intentFilter)
             .map { actionFromIntent(it) }
             .compose(proecessorHolder.actionProcessor)
             .scan(LodingViewState.idle(), reducer)
+            .switchMap(specialEventProcessor)
+            .distinctUntilChanged()
+            .replay(1)
+            .autoConnect(0)
 //            .compose(proecessorHolder.actionProcessor)
 //            .scan(LodingViewState.idle(), reducer)
 //            .switchMap(specialEventProcessor)

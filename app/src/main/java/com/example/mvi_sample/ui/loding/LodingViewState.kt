@@ -10,7 +10,8 @@ data class LodingViewState(
 
     sealed class LodingUiEvents {
 
-        data class JumpMain(val welcomeString: String) : LodingUiEvents()
+        data class JumpMain(val vsersionCode: String) : LodingUiEvents()
+        data class SaveData(val result: String): LodingUiEvents()
     }
 
     companion object{
