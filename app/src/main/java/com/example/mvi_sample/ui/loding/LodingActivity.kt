@@ -15,7 +15,6 @@ import javax.inject.Inject
 class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
 
     override val layoutId = R.layout.activity_loding
-
     private val startClickIntentPublisher =
         PublishSubject.create<LodingIntent.Start>()
 

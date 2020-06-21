@@ -1,6 +1,8 @@
 package com.example.mvi_sample
 
 import android.app.Application
+import androidx.room.Room
+import com.example.mvi_sample.db.AppDataBase
 import com.example.mvi_sample.di.DaggerAppComponnet
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
