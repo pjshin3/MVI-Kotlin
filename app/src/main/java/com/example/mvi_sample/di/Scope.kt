@@ -1,5 +1,6 @@
 package com.example.mvi_sample.di
 
+import java.lang.annotation.RetentionPolicy
 import javax.inject.Scope
 
 @Scope
@@ -11,3 +12,9 @@ annotation class ActivityScope
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
 annotation class FragmentScope
+
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ActivityContext{
+
+}

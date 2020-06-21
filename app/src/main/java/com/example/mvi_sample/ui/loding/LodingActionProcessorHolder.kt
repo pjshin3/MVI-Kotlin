@@ -1,6 +1,5 @@
 package com.example.mvi_sample.ui.loding
 
-import android.util.Log
 import com.example.mvi_sample.base.SchedulerProvider
 import com.example.mvi_sample.ex.flatMapErrorActionObservable
 import com.example.mvi_sample.ui.loding.state.LodingAction
@@ -17,7 +16,7 @@ class LodingActionProcessorHolder (
         ObservableTransformer<LodingAction.ServerVersion, LodingResult> {action ->
             action.flatMap {
                 repository
-                    .chack()
+                    .getChack()
                     .toObservable()
                     .flatMap { onLodingResultSuccess(it) }
             }

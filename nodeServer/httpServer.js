@@ -6,6 +6,15 @@ let users= [
     name: 'philip'
   }
 ]
+let data = {
+    id: 'shinpilje',
+    name: 'philip',
+    item : 'mac',
+    title : 'title',
+    test : 'true',
+    wife : 'hong',
+    age : 30
+}
 let myAppServerChack =
   {
     version: 2.0

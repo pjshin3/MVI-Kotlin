@@ -5,12 +5,16 @@ import android.util.Log
 import com.example.mvi_sample.MainActivity
 import com.example.mvi_sample.R
 import com.example.mvi_sample.base.BaseActivity
+import com.example.mvi_sample.db.AppDataBase
 import com.example.mvi_sample.ui.loding.state.LodingIntent
 import com.jakewharton.rxbinding3.view.clicks
 import com.uber.autodispose.autoDisposable
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_loding.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
@@ -28,23 +32,19 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
         super.onCreate(savedInstanceState)
 
         bind()
+        startCheckServer()
     }
-    private fun bind(){
-        bt.clicks()
-            .map { LodingIntent.Start }
+
+    private fun startCheckServer(){
+        Observable.just( LodingIntent.Start )
             .autoDisposable(scopeProvider)
-            .subscribe({
-                startClickIntentPublisher.onNext(it)
-            },{
+            .subscribe(startClickIntentPublisher)
+    }
 
-            })
-
+    private fun bind(){
         mViewModel.states()
             .autoDisposable(scopeProvider)
-            .subscribe({
-                render(it)
-            },{
-            })
+            .subscribe(this::render)
 
         mViewModel.processIntents(intents())
     }
@@ -57,6 +57,9 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
     override fun render(states: LodingViewState) {
         when(states.uiEvents){
             is LodingViewState.LodingUiEvents.JumpMain -> {
+                runBlocking {
+                    delay(3000)
+                }
                 MainActivity.launch(this)
                 finish()
                 return

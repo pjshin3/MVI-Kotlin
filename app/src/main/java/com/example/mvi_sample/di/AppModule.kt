@@ -1,8 +1,12 @@
 package com.example.mvi_sample.di
 
+import android.content.Context
+import androidx.room.Room
 import com.example.mvi_sample.BuildConfig
+import com.example.mvi_sample.MainActivity
 import com.example.mvi_sample.base.SchedulerProvider
 import com.example.mvi_sample.base.SchedulerProviderProxy
+import com.example.mvi_sample.db.AppDataBase
 import com.example.mvi_sample.remote.RemoteManager
 import com.example.mvi_sample.remote.RetrofitService
 import dagger.Module
@@ -70,4 +74,9 @@ class AppModule {
     fun providesRemoteManager(retrofitService: RetrofitService): RemoteManager{
         return RemoteManager(retrofitService = retrofitService)
     }
+
+    @Singleton
+    @Provides
+    fun providesDataBase(context: Context) =
+        Room.databaseBuilder(context, AppDataBase::class.java,"mydata").build()
 }

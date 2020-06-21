@@ -3,6 +3,7 @@ package com.example.mvi_sample.di.ui
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.mvi_sample.base.SchedulerProvider
+import com.example.mvi_sample.db.AppDataBase
 import com.example.mvi_sample.di.ActivityScope
 import com.example.mvi_sample.remote.RemoteManager
 import com.example.mvi_sample.ui.loding.*
