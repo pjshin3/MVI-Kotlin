@@ -16,7 +16,8 @@ import javax.inject.Singleton
         AndroidInjectionModule::class,
         AndroidSupportInjectionModule::class,
         ActivitiesModule::class,
-        AppModule::class
+        AppModule::class,
+        DatabaseModule::class
     ]
 )
 interface AppComponnet{

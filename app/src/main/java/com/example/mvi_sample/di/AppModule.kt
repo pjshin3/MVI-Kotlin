@@ -74,9 +74,4 @@ class AppModule {
     fun providesRemoteManager(retrofitService: RetrofitService): RemoteManager{
         return RemoteManager(retrofitService = retrofitService)
     }
-
-    @Singleton
-    @Provides
-    fun providesDataBase(context: Context) =
-        Room.databaseBuilder(context, AppDataBase::class.java,"mydata").build()
 }
