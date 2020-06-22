@@ -6,5 +6,6 @@ sealed class LodingIntent : IIntent {
 
     object InitialIntent : LodingIntent()
 
-    object Start : LodingIntent()
+    object getServerInfo : LodingIntent()
+    object getTempData : LodingIntent()
 }

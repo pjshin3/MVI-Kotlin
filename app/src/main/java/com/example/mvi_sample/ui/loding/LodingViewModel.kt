@@ -48,24 +48,12 @@ class LodingViewModel (
             .distinctUntilChanged()
             .replay(1)
             .autoConnect(0)
-//            .compose(proecessorHolder.actionProcessor)
-//            .scan(LodingViewState.idle(), reducer)
-//            .switchMap(specialEventProcessor)
-//            .distinctUntilChanged()
-//            .replay(1)
-//            .autoConnect(0)
-
 
     private fun actionFromIntent(intent: LodingIntent): LodingAction {
         return when(intent){
             is LodingIntent.InitialIntent -> LodingAction.InitialUiAction
-            is LodingIntent.Start -> LodingAction.ServerVersion
-        }
-    }
-    private fun actionTestCode(lodingAction: LodingAction): LodingViewState{
-        return when(lodingAction){
-            is LodingAction.ServerVersion -> LodingViewState.idle()
-            is LodingAction.InitialUiAction -> LodingViewState.idle()
+            is LodingIntent.getServerInfo -> LodingAction.ServerVersion
+            is LodingIntent.getTempData -> LodingAction.GetTempData
         }
     }
 

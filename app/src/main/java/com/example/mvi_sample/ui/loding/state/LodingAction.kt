@@ -7,4 +7,5 @@ sealed class LodingAction : IAction {
     object InitialUiAction : LodingAction()
 
     object ServerVersion: LodingAction()
+    object GetTempData: LodingAction()
 }

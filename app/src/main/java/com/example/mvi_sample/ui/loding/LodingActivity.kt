@@ -15,8 +15,11 @@ import javax.inject.Inject
 class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
 
     override val layoutId = R.layout.activity_loding
-    private val startClickIntentPublisher =
-        PublishSubject.create<LodingIntent.Start>()
+    private val startGetServerInfo =
+        PublishSubject.create<LodingIntent.getServerInfo>()
+
+    private val startGetTempData =
+        PublishSubject.create<LodingIntent.getTempData>()
 
     @Inject
     lateinit var mViewModel: LodingViewModel
@@ -30,9 +33,17 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
     }
 
     private fun startCheckServer(){
-        Observable.just( LodingIntent.Start )
+        Observable.just( LodingIntent.getServerInfo,LodingIntent.getTempData )
             .autoDisposable(scopeProvider)
-            .subscribe(startClickIntentPublisher)
+            .subscribe({
+                if (it is LodingIntent.getServerInfo){
+                    startGetServerInfo.onNext(it)
+                }else if(it is LodingIntent.getTempData){
+                    startGetTempData.onNext(it)
+                }
+            },{
+
+            })
     }
 
     private fun bind(){
@@ -45,7 +56,7 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
 
 
     override fun intents(): Observable<LodingIntent> = Observable.mergeArray<LodingIntent>(
-        startClickIntentPublisher
+        startGetServerInfo
     ).startWith(LodingIntent.InitialIntent)
 
     override fun render(states: LodingViewState) {
