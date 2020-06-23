@@ -35,11 +35,9 @@ class LodingActivityModule {
     @Provides
     fun providesLodingRepository(
         remoteManager: RemoteManager,
+        localManger : AppDataBase,
         schedulerProvider: SchedulerProvider
     ):LodingDataSourceRepository{
-        return LodingDataSourceRepository(
-            remoteDataSource = LodingRemoteDataSource(remoteManager,schedulerProvider)
-        )
+        return LodingDataSourceRepository(LodingRemoteDataSource(remoteManager,schedulerProvider),LodingLocalDataSource(localManger))
     }
-
 }

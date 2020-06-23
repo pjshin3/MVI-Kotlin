@@ -69,7 +69,7 @@ class LodingViewModel (
 
         private val reducer = io.reactivex.functions.BiFunction{ proviusState: LodingViewState, result: LodingResult ->
             when(result){
-                is LodingResult.Success -> {
+                is LodingResult.SuccessServerCheck -> {
                     proviusState.copy(
                         isLoading = false,
                         errors = null,
@@ -84,6 +84,13 @@ class LodingViewModel (
                 is LodingResult.InFlight ->{
                     proviusState.copy(
                         isLoading = true,
+                        errors = null,
+                        uiEvents = null
+                    )
+                }
+                is LodingResult.SuccessGetTempData ->{
+                    proviusState.copy(
+                        isLoading = false,
                         errors = null,
                         uiEvents = null
                     )

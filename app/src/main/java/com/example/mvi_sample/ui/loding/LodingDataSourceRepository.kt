@@ -1,13 +1,17 @@
 package com.example.mvi_sample.ui.loding
 
 import com.example.mvi_sample.base.BaseRepositoryRemote
+import com.example.mvi_sample.base.Interface.ILocalDataSource
 import com.example.mvi_sample.base.Interface.IRemoteDataSource
 import com.example.mvi_sample.base.SchedulerProvider
+import com.example.mvi_sample.db.AppDataBase
+import com.example.mvi_sample.db.entity.TempDataEntity
 import com.example.mvi_sample.remote.RemoteManager
 import io.reactivex.Flowable
 
 class LodingDataSourceRepository (
-    remoteDataSource: LodingRemoteDataSource
+    remoteDataSource: LodingRemoteDataSource,
+    val localDataSource: LodingLocalDataSource
 ): BaseRepositoryRemote<LodingRemoteDataSource>(remoteDataSource){
 
     fun getChack() : Flowable<ServerVersionInfoModel> {
@@ -19,7 +23,6 @@ class LodingDataSourceRepository (
         remoteDataSource
             .getData()
             .doOnNext { it }
-
 
 }
 class LodingRemoteDataSource(
@@ -38,4 +41,13 @@ class LodingRemoteDataSource(
                 .retrofitService
                 .getData()
                 .subscribeOn(schedulers.io())
+}
+
+class LodingLocalDataSource(
+    private val localManager: AppDataBase
+): ILocalDataSource {
+    fun insertData(tempDataEntity: TempDataEntity) =
+        localManager
+            .getTempDao()
+            .insertTempData(tempDataEntity)
 }
