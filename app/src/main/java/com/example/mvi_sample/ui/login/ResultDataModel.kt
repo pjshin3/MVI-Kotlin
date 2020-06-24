@@ -1,8 +1,8 @@
-package com.example.mvi_sample.ui.loding
+package com.example.mvi_sample.ui.login
 
 import com.google.gson.annotations.SerializedName
 
-data class ServerDataModel(
+data class ResultDataModel(
     @SerializedName("id") val id : String,
     @SerializedName("name") val name : String,
     @SerializedName("item") val item : String,

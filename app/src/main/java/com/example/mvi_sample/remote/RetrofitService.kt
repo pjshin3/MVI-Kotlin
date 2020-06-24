@@ -1,6 +1,6 @@
 package com.example.mvi_sample.remote
 
-import com.example.mvi_sample.ui.loding.ServerDataModel
+import com.example.mvi_sample.ui.login.ResultDataModel
 import com.example.mvi_sample.ui.loding.ServerVersionInfoModel
 import io.reactivex.Flowable
 import retrofit2.http.GET
@@ -13,5 +13,5 @@ interface RetrofitService {
 
     @GET("/data")
     @Headers("Accept: application/json")
-    fun getData() : Flowable<ServerDataModel>
+    fun getData() : Flowable<ResultDataModel>
 }

@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.mvi_sample.base.BaseViewModel
 import com.example.mvi_sample.ex.notOfType
-import com.example.mvi_sample.ui.loding.state.LodingAction
-import com.example.mvi_sample.ui.loding.state.LodingIntent
-import com.example.mvi_sample.ui.loding.state.LodingResult
+import com.example.mvi_sample.ui.loding.status.LodingAction
+import com.example.mvi_sample.ui.loding.status.LodingIntent
+import com.example.mvi_sample.ui.loding.status.LodingResult
 import com.uber.autodispose.autoDisposable
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
@@ -53,11 +53,10 @@ class LodingViewModel (
         return when(intent){
             is LodingIntent.InitialIntent -> LodingAction.InitialUiAction
             is LodingIntent.getServerInfo -> LodingAction.ServerVersion
-            is LodingIntent.getTempData -> LodingAction.GetTempData
         }
     }
 
-    private val specialEventProcessor : io.reactivex.functions.Function<LodingViewState, ObservableSource<LodingViewState>>
+    private val  specialEventProcessor : io.reactivex.functions.Function<LodingViewState, ObservableSource<LodingViewState>>
         get() = io.reactivex.functions.Function { state ->
             when(state.uiEvents != null || state.errors != null){
                 true -> Observable.just(state,state.copy(uiEvents = null , errors = null))
@@ -84,13 +83,6 @@ class LodingViewModel (
                 is LodingResult.InFlight ->{
                     proviusState.copy(
                         isLoading = true,
-                        errors = null,
-                        uiEvents = null
-                    )
-                }
-                is LodingResult.SuccessGetTempData ->{
-                    proviusState.copy(
-                        isLoading = false,
                         errors = null,
                         uiEvents = null
                     )

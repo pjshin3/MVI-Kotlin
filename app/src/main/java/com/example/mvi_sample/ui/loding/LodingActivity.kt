@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.example.mvi_sample.MainActivity
 import com.example.mvi_sample.R
 import com.example.mvi_sample.base.BaseActivity
-import com.example.mvi_sample.ui.loding.state.LodingIntent
+import com.example.mvi_sample.ui.loding.status.LodingIntent
 import com.uber.autodispose.autoDisposable
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -18,9 +18,6 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
     private val startGetServerInfo =
         PublishSubject.create<LodingIntent.getServerInfo>()
 
-    private val startGetTempData =
-        PublishSubject.create<LodingIntent.getTempData>()
-
     @Inject
     lateinit var mViewModel: LodingViewModel
 
@@ -33,17 +30,9 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
     }
 
     private fun startCheckServer(){
-        Observable.just( LodingIntent.getServerInfo,LodingIntent.getTempData )
+        Observable.just( LodingIntent.getServerInfo )
             .autoDisposable(scopeProvider)
-            .subscribe({
-                if (it is LodingIntent.getServerInfo){
-                    startGetServerInfo.onNext(it)
-                }else if(it is LodingIntent.getTempData){
-                    startGetTempData.onNext(it)
-                }
-            },{
-
-            })
+            .subscribe(startGetServerInfo)
     }
 
     private fun bind(){
@@ -68,9 +57,6 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
                 MainActivity.launch(this)
                 finish()
                 return
-            }
-            is LodingViewState.LodingUiEvents.SaveData ->{
-
             }
         }
     }

@@ -14,6 +14,7 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".MainActivity"/>
+        <activity android:name=".ui.login.LoginActivity"/>
         <activity android:name=".ui.loding.LodingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
