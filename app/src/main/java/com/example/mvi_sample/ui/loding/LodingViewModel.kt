@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.mvi_sample.base.BaseViewModel
 import com.example.mvi_sample.ex.notOfType
+import com.example.mvi_sample.remote.ProcessorHolder
 import com.example.mvi_sample.ui.loding.status.LodingAction
 import com.example.mvi_sample.ui.loding.status.LodingIntent
 import com.example.mvi_sample.ui.loding.status.LodingResult
@@ -14,7 +15,7 @@ import io.reactivex.ObservableTransformer
 import io.reactivex.subjects.PublishSubject
 
 class LodingViewModel (
-    private val proecessorHolder : LodingActionProcessorHolder
+    private val proecessorHolder : ProcessorHolder
 ): BaseViewModel<LodingIntent,LodingViewState>(){
 
     private val intentsSubject: PublishSubject<LodingIntent> = PublishSubject.create()
@@ -42,7 +43,7 @@ class LodingViewModel (
         intentsSubject
             .compose(intentFilter)
             .map { actionFromIntent(it) }
-            .compose(proecessorHolder.actionProcessor)
+            .compose(proecessorHolder.actionLodingProcessor)
             .scan(LodingViewState.idle(), reducer)
             .switchMap(specialEventProcessor)
             .distinctUntilChanged()
@@ -93,7 +94,7 @@ class LodingViewModel (
 
     @Suppress("UNCHECKED_CAST")
     class LodingViewModelFactory(
-        private val processorHolder: LodingActionProcessorHolder
+        private val processorHolder: ProcessorHolder
     ): ViewModelProvider.Factory{
         override fun <T : ViewModel?> create(modelClass: Class<T>): T =
             LodingViewModel(processorHolder) as T

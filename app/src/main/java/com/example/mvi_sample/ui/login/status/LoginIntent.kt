@@ -6,5 +6,8 @@ sealed class LoginIntent : IIntent {
 
     object InitialIntent: LoginIntent()
 
-    object LoginButtonClick: LoginIntent()
+    data class LoginButtonClickIntent(
+        val id : String?,
+        val password: String?
+    ): LoginIntent()
 }

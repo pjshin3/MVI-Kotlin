@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="로그인"
         android:textSize="50sp"
         android:gravity="center"
         >
-    </TextView>
+    </androidx.appcompat.widget.AppCompatButton>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

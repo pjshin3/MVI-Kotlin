@@ -11,7 +11,7 @@ data class LoginViewState(
 
     sealed class LoginUiEvent{
 
-        data class SucessLogin( val response: String) : LoginUiEvent()
+        data class SucessLogin( val result: ResultDataModel) : LoginUiEvent()
     }
 
     companion object{

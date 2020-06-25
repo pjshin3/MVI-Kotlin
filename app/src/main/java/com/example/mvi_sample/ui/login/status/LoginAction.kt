@@ -5,5 +5,8 @@ import com.example.mvi_sample.base.Interface.IAction
 sealed class LoginAction : IAction{
 
     object InitialUiAction : LoginAction()
-    object SendToLoginInfo : LoginAction()
+    data class SendToLoginInfo(
+        val id : String?,
+        val password : String?
+    ) : LoginAction()
 }
