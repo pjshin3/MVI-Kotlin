@@ -5,6 +5,7 @@ import com.example.mvi_sample.MainActivity
 import com.example.mvi_sample.R
 import com.example.mvi_sample.base.BaseActivity
 import com.example.mvi_sample.ui.loding.status.LodingIntent
+import com.example.mvi_sample.ui.login.LoginActivity
 import com.uber.autodispose.autoDisposable
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -54,7 +55,7 @@ class LodingActivity : BaseActivity<LodingIntent,LodingViewState>() {
                 runBlocking {
                     delay(3000)
                 }
-                MainActivity.launch(this)
+                LoginActivity.launch(this)
                 finish()
                 return
             }
