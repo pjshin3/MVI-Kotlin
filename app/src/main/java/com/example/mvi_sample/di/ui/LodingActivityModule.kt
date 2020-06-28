@@ -3,7 +3,9 @@ package com.example.mvi_sample.di.ui
 import androidx.lifecycle.ViewModelProvider
 import com.example.mvi_sample.base.SchedulerProvider
 import com.example.mvi_sample.di.ActivityScope
+import com.example.mvi_sample.remote.DataSourceRepository
 import com.example.mvi_sample.remote.ProcessorHolder
+import com.example.mvi_sample.remote.RemoteDataSource
 import com.example.mvi_sample.remote.RemoteManager
 import com.example.mvi_sample.ui.loding.*
 import dagger.Module
@@ -38,7 +40,12 @@ class LodingActivityModule {
     fun providesLodingRepository(
         remoteManager: RemoteManager,
         schedulerProvider: SchedulerProvider
-    ):DataSourceRepository{
-        return DataSourceRepository(RemoteDataSource(remoteManager,schedulerProvider))
+    ): DataSourceRepository {
+        return DataSourceRepository(
+            RemoteDataSource(
+                remoteManager,
+                schedulerProvider
+            )
+        )
     }
 }

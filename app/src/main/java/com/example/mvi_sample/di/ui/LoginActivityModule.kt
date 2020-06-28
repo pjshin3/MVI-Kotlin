@@ -5,8 +5,8 @@ import com.example.mvi_sample.base.SchedulerProvider
 import com.example.mvi_sample.di.ActivityScope
 import com.example.mvi_sample.remote.ProcessorHolder
 import com.example.mvi_sample.remote.RemoteManager
-import com.example.mvi_sample.ui.loding.DataSourceRepository
-import com.example.mvi_sample.ui.loding.RemoteDataSource
+import com.example.mvi_sample.remote.DataSourceRepository
+import com.example.mvi_sample.remote.RemoteDataSource
 import com.example.mvi_sample.ui.login.LoginActivity
 import com.example.mvi_sample.ui.login.LoginViewModel
 import dagger.Module
@@ -41,7 +41,12 @@ class LoginActivityModule {
     fun providesLoginRepository(
         remoteManager: RemoteManager,
         schedulerProvider: SchedulerProvider
-    ):DataSourceRepository{
-        return DataSourceRepository(RemoteDataSource(remoteManager,schedulerProvider))
+    ): DataSourceRepository {
+        return DataSourceRepository(
+            RemoteDataSource(
+                remoteManager,
+                schedulerProvider
+            )
+        )
     }
 }

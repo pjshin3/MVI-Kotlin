@@ -22,14 +22,14 @@ class LoginViewModel(
     private val intentsSubject: PublishSubject<LoginIntent> = PublishSubject.create()
     private val stateObservable: Observable<LoginViewState> = compose()
 
-    override fun processIntents(intents: Observable<LoginIntent>) =
+    override fun processIntents(intents: Observable<LoginIntent>) {
         intents.autoDisposable(this).subscribe(intentsSubject)
-
+    }
 
     override fun states(): Observable<LoginViewState> = stateObservable
 
-    private val intentFilter: ObservableTransformer<LoginIntent,LoginIntent> =
-        ObservableTransformer { intent ->
+    private val intentFilter: ObservableTransformer<LoginIntent,LoginIntent>
+        get() = ObservableTransformer { intent ->
             intent.publish { shared ->
                 Observable.merge(
                     shared.ofType(LoginIntent.InitialIntent::class.java).take(1),
@@ -51,6 +51,9 @@ class LoginViewModel(
             .map(this::actionFromIntent)
             .compose(proecessorHolder.actionLoginProcessor)
             .scan(LoginViewState.idle(), reducer)
+            .distinctUntilChanged()
+            .replay(1)
+            .autoConnect(0)
 
 
     companion object{

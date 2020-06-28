@@ -2,7 +2,6 @@ package com.example.mvi_sample.remote
 
 import com.example.mvi_sample.base.SchedulerProvider
 import com.example.mvi_sample.ex.flatMapErrorActionObservable
-import com.example.mvi_sample.ui.loding.DataSourceRepository
 import com.example.mvi_sample.ui.loding.ServerVersionInfoModel
 import com.example.mvi_sample.ui.loding.status.LodingAction
 import com.example.mvi_sample.ui.loding.status.LodingResult

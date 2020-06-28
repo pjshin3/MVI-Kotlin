@@ -1,9 +1,9 @@
-package com.example.mvi_sample.ui.loding
+package com.example.mvi_sample.remote
 
 import com.example.mvi_sample.base.BaseRepositoryRemote
 import com.example.mvi_sample.base.Interface.IRemoteDataSource
 import com.example.mvi_sample.base.SchedulerProvider
-import com.example.mvi_sample.remote.RemoteManager
+import com.example.mvi_sample.ui.loding.ServerVersionInfoModel
 import com.example.mvi_sample.ui.login.ResultDataModel
 import io.reactivex.Flowable
 
@@ -21,6 +21,7 @@ class DataSourceRepository (
         remoteDataSource
             .getData()
             .doOnNext{it}
+            .doOnError { throw it }
 
 }
 class RemoteDataSource(
