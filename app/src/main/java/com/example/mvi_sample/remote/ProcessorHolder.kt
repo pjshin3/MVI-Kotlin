@@ -12,14 +12,14 @@ import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 
 class ProcessorHolder (
-    private val repository : DataSourceRepository,
+    private val repositoryRemote : RemoteDataSourceRepository,
     private val scheduler: SchedulerProvider
 ) {
 
     private val lodingTransfomar =
         ObservableTransformer<LodingAction.ServerVersion, LodingResult> {action ->
             action.flatMap {
-                repository
+                repositoryRemote
                     .getChack()
                     .toObservable()
                     .flatMap { onServerCheckSuccess(it) }
@@ -29,7 +29,7 @@ class ProcessorHolder (
     private val logineTransfomar =
         ObservableTransformer<LoginAction.SendToLoginInfo, LoginResult> {action ->
             action.flatMap {
-                repository
+                repositoryRemote
                     .getData()
                     .toObservable()
                     .flatMap { onGetDataSuccess(it) }
@@ -62,6 +62,6 @@ class ProcessorHolder (
                         it !is LoginAction.SendToLoginInfo
                     }.flatMapErrorActionObservable()
                 )
-            }
+            }.retry()
         }
 }

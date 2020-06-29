@@ -1,5 +1,6 @@
 package com.example.mvi_sample.ui.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.mvi_sample.base.BaseViewModel
@@ -41,14 +42,16 @@ class LoginViewModel(
     private fun actionFromIntent(intent: LoginIntent): LoginAction{
         return when(intent){
             is LoginIntent.InitialIntent -> LoginAction.InitialUiAction
-            is LoginIntent.LoginButtonClickIntent -> LoginAction.SendToLoginInfo(intent.id,intent.password)
+            is LoginIntent.LoginButtonClickIntent -> LoginAction.SendToLoginInfo("philip","a1013015")
         }
     }
+
+    private fun test() : Observable<LoginViewState> = Observable.just(LoginViewState.idle())
 
     private fun compose() =
         intentsSubject
             .compose(intentFilter)
-            .map(this::actionFromIntent)
+            .map{actionFromIntent(it)}
             .compose(proecessorHolder.actionLoginProcessor)
             .scan(LoginViewState.idle(), reducer)
             .distinctUntilChanged()

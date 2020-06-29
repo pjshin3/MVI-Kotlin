@@ -1,5 +1,6 @@
 package com.example.mvi_sample.remote
 
+import android.util.Log
 import com.example.mvi_sample.base.BaseRepositoryRemote
 import com.example.mvi_sample.base.Interface.IRemoteDataSource
 import com.example.mvi_sample.base.SchedulerProvider
@@ -7,7 +8,7 @@ import com.example.mvi_sample.ui.loding.ServerVersionInfoModel
 import com.example.mvi_sample.ui.login.ResultDataModel
 import io.reactivex.Flowable
 
-class DataSourceRepository (
+class RemoteDataSourceRepository (
     remoteDataSource: RemoteDataSource
 ): BaseRepositoryRemote<RemoteDataSource>(remoteDataSource){
 
@@ -16,12 +17,10 @@ class DataSourceRepository (
             .getChack()
             .doOnNext {it}
 
-
     fun getData() : Flowable<ResultDataModel> =
         remoteDataSource
             .getData()
             .doOnNext{it}
-            .doOnError { throw it }
 
 }
 class RemoteDataSource(

@@ -2,6 +2,7 @@ package com.example.mvi_sample.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.example.mvi_sample.MainActivity
@@ -52,7 +53,7 @@ class LoginActivity : BaseActivity<LoginIntent,LoginViewState>(){
     override fun render(states: LoginViewState) {
         when(states.uiEvents){
             is LoginViewState.LoginUiEvent.SucessLogin -> {
-                Toast.makeText(this, "로그인 성공 ${states.uiEvents.result}",Toast.LENGTH_LONG).show()
+                Log.e("philip","테스트 ${states.uiEvents.result}")
             }
         }
     }
